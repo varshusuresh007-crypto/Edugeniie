@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EduGenie - AI Learning Assistant</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f5f3ff;
+    color: #222;
+}
+
+header {
+    background: white;
+    padding: 18px 7%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px #ddd;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #6c4ce8;
+}
+
+.badge {
+    background: #eee9ff;
+    color: #6c4ce8;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+.hero {
+    text-align: center;
+    padding: 60px 20px 40px;
+}
+
+.hero h1 {
+    font-size: 42px;
+}
+
+.hero h1 span {
+    color: #6c4ce8;
+}
+
+.hero p {
+    margin: 18px auto;
+    max-width: 600px;
+    color: #666;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    padding: 22px;
+    border-radius: 18px;
+    box-shadow: 0 5px 20px #ddd;
+}
+
+.subject {
+    width: 100%;
+    padding: 12px;
+    margin: 7px 0;
+    border: none;
+    border-radius: 10px;
+    background: #f3f0ff;
+    cursor: pointer;
+    text-align: left;
+    font-size: 15px;
+}
+
+.subject:hover {
+    background: #6c4ce8;
+    color: white;
+}
+
+#chat {
+    height: 420px;
+    overflow-y: auto;
+    padding: 5px;
+}
+
+.message {
+    padding: 13px;
+    margin: 10px 0;
+    border-radius: 14px;
+    white-space: pre-line;
+    line-height: 1.5;
+}
+
+.bot {
+    background: #eeeaff;
+}
+
+.user {
+    background: #6c4ce8;
+    color: white;
+    margin-left: 20%;
+}
+
+.input-area {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.input-area input {
+    flex: 1;
+    padding: 14px;
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    outline: none;
+}
+
+.send {
+    background: #6c4ce8;
+    color: white;
+    border: none;
+    padding: 14px 22px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #777;
+}
+
+@media(max-width:700px) {
+
+    .container {
+        grid-template-columns: 1fr;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+    }
+
+    .user {
+        margin-left: 5%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🎓 EduGenie</div>
+    <div class="badge">Offline AI Learning Assistant</div>
+</header>
+
+<section class="hero">
+
+    <h1>
+        Learn Smarter with
+        <span>EduGenie</span>
+    </h1>
+
+    <p>
+        Your personal learning assistant for simple explanations,
+        examples, important points and quick quizzes.
+    </p>
+
+</section>
+
+<div class="container">
+
+    <!-- SUBJECTS -->
+
+    <div class="card">
+
+        <h3>📚 Subjects</h3>
+
+        <button class="subject"
+            onclick="askSubject('AI')">
+            🤖 Artificial Intelligence
+        </button>
+
+        <button class="subject"
+            onclick="askSubject('HTML')">
+            🌐 HTML
+        </button>
+
+        <button class="subject"
+            onclick="askSubject('JavaScript')">
+            💻 JavaScript
+        </button>
+
+        <button class="subject"
+            onclick="askSubject('DBMS')">
+            🗄️ DBMS
+        </button>
+
+        <button class="subject"
+            onclick="askSubject('Python')">
+            🐍 Python
+        </button>
+
+        <button class="subject"
+            onclick="askSubject('Data Structure')">
+            📊 Data Structures
+        </button>
+
+        <button class="subject"
+            onclick="askSubject('Networking')">
+            🌐 Computer Networks
+        </button>
+
+    </div>
+
+
+    <!-- CHAT -->
+
+    <div class="card">
+
+        <div id="chat">
+
+            <div class="message bot">
+                👋 Hi! I'm EduGenie.
+
+                Ask me about AI, HTML, JavaScript,
+                DBMS, Python, Data Structures or Networking.
+
+                Try:
+                "What is AI?"
+            </div>
+
+        </div>
+
+        <div class="input-area">
+
+            <input
+                id="question"
+                placeholder="Ask your question..."
+            >
+
+            <button
+                class="send"
+                onclick="askGenie()">
+                Send
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<footer>
+    © 2026 EduGenie | Student Learning Assistant
+</footer>
+
+
+<script>
+
+/* =================================
+   EDU GENIE OFFLINE KNOWLEDGE BASE
+   NO API KEY REQUIRED
+================================= */
+
+const knowledge = {
+
+AI: {
+    keywords: ["ai", "artificial intelligence", "what is ai"],
+    answer:
+`🤖 ARTIFICIAL INTELLIGENCE
+
+Artificial Intelligence (AI) is a technology that enables computers to perform tasks that normally require human intelligence.
+
+📌 Important Points:
+
+• AI can learn from data.
+• AI can recognize patterns.
+• AI can understand language.
+• AI can make predictions.
+• AI is used in many industries.
+
+💡 Example:
+
+Google Maps uses AI to predict traffic and suggest routes.
+
+📝 Quick Quiz:
+
+1. What does AI stand for?
+2. Give one real-life example of AI.`
+},
+
+HTML: {
+    keywords: ["html", "hypertext", "web page"],
+    answer:
+`🌐 HTML
+
+HTML stands for HyperText Markup Language.
+
+It is used to create the structure of web pages.
+
+📌 Important Points:
+
+• HTML uses tags.
+• <h1> creates a heading.
+• <p> creates a paragraph.
+• <img> displays an image.
+• <a> creates a link.
+
+💡 Example:
+
+<h1>Hello World</h1>
+
+This creates a heading.
+
+📝 Quick Quiz:
+
+1. What does HTML stand for?
+2. Which tag creates a heading?`
+},
+
+JavaScript: {
+    keywords: ["javascript", "js", "script"],
+    answer:
+`💻 JAVASCRIPT
+
+JavaScript is a programming language used to make websites interactive.
+
+📌 Important Points:
+
+• It can change HTML.
+• It can respond to user actions.
+• It can validate forms.
+• It can create dynamic content.
+
+💡 Example:
+
+let name = "Varshini";
+console.log(name);
+
+📝 Quick Quiz:
+
+1. What is JavaScript?
+2. Where is JavaScript commonly used?`
+},
+
+DBMS: {
+    keywords: ["dbms", "database", "sql"],
+    answer:
+`🗄️ DBMS
+
+DBMS stands for Database Management System.
+
+It is software used to store, manage and retrieve data.
+
+📌 Important Points:
+
+• Stores data.
+• Updates data.
+• Deletes data.
+• Retrieves data.
+• Provides data security.
+
+💡 Examples:
+
+MySQL
+Oracle
+PostgreSQL
+
+📝 Quick Quiz:
+
+1. What does DBMS stand for?
+2. Give one example of a DBMS.`
+},
+
+Python: {
+    keywords: ["python", "programming"],
+    answer:
+`🐍 PYTHON
+
+Python is a high-level programming language known for its simple syntax.
+
+📌 Important Points:
+
+• Easy to learn.
+• Used in AI.
+• Used in Data Science.
+• Used in Web Development.
+• Supports many libraries.
+
+💡 Example:
+
+print("Hello World")
+
+📝 Quick Quiz:
+
+1. What is Python?
+2. Give one use of Python.`
+},
+
+"Data Structure": {
+    keywords: ["data structure", "stack", "queue", "linked list"],
+    answer:
+`📊 DATA STRUCTURES
+
+A data structure is a way of organizing and storing data efficiently.
+
+📌 Common Data Structures:
+
+• Array
+• Stack
+• Queue
+• Linked List
+• Tree
+• Graph
+
+💡 Example:
+
+A stack follows LIFO:
+
+Last In → First Out
+
+📝 Quick Quiz:
+
+1. What is a data structure?
+2. What does LIFO mean?`
+},
+
+Networking: {
+    keywords: ["network", "networking", "computer network", "tcp", "ip"],
+    answer:
+`🌐 COMPUTER NETWORK
+
+A computer network is a group of connected computers that communicate and share resources.
+
+📌 Important Points:
+
+• LAN
+• MAN
+• WAN
+• IP Address
+• TCP/IP
+• Router
+• Switch
+
+💡 Example:
+
+The Internet is the largest computer network.
+
+📝 Quick Quiz:
+
+1. What is a computer network?
+2. What does LAN stand for?`
+}
+
+};
+
+
+/* ==============================
+   ADD MESSAGE
+============================== */
+
+function addMessage(text, type) {
+
+    const message = document.createElement("div");
+
+    message.className = "message " + type;
+
+    message.innerText = text;
+
+    document.getElementById("chat")
+        .appendChild(message);
+
+    const chat = document.getElementById("chat");
+
+    chat.scrollTop = chat.scrollHeight;
+}
+
+
+/* ==============================
+   SUBJECT BUTTON
+============================== */
+
+function askSubject(subject) {
+
+    const data = knowledge[subject];
+
+    addMessage(subject, "user");
+
+    setTimeout(() => {
+
+        addMessage(data.answer, "bot");
+
+    }, 300);
+}
+
+
+/* ==============================
+   QUESTION SEARCH
+============================== */
+
+function askGenie() {
+
+    const input =
+        document.getElementById("question");
+
+    const question =
+        input.value.trim();
+
+    if (!question) {
+
+        alert("Please enter a question.");
+
+        return;
+    }
+
+    addMessage(question, "user");
+
+    input.value = "";
+
+    setTimeout(() => {
+
+        const result =
+            findAnswer(question.toLowerCase());
+
+        addMessage(result, "bot");
+
+    }, 300);
+}
+
+
+/* ==============================
+   FIND ANSWER
+============================== */
+
+function findAnswer(question) {
+
+    for (const subject in knowledge) {
+
+        const data = knowledge[subject];
+
+        for (const keyword of data.keywords) {
+
+            if (question.includes(keyword)) {
+
+                return data.answer;
+
+            }
+
+        }
+
+    }
+
+    return `
+🤔 I don't have an answer for that question yet.
+
+Try asking about:
+
+• Artificial Intelligence
+• HTML
+• JavaScript
+• DBMS
+• Python
+• Data Structures
+• Computer Networks
+
+💡 You can also select a subject from the left side.
+`;
+}
+
+
+/* ==============================
+   ENTER KEY
+============================== */
+
+document
+    .getElementById("question")
+    .addEventListener("keydown", function(event) {
+
+        if (event.key === "Enter") {
+
+            askGenie();
+
+        }
+
+    });
+
+</script>
+
+</body>
+</html>
